@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>EMI Calculation</title>
+	<style type="text/css">
+		* {
+			box-sizing: border-box;
+		}
+
+		.row {
+			margin-left: 240px;
+		}
+
+		/* Create two equal columns that floats next to each other */
+		.column {
+			float: left;
+			width: 40%;
+			padding: 10px;
+			/*margin-left: 20px;*/
+			/*height: 300px;*/ /* Should be removed. Only for demonstration */
+		}
+
+			/* Clear floats after the columns */
+		.row:after {
+			content: "";
+			display: table;
+			clear: both;
+			width: 60%;
+		}
+
+		table {
+		  font-family: arial, sans-serif;
+		  border-collapse: collapse;
+		  width: 80%;
+		}
+
+		td, th {
+		  border: 1px solid #dddddd;
+		  text-align: left;
+		  padding: 8px;
+		}
+
+		tr:nth-child(even) {
+		  background-color: #dddddd;
+		}
+
+
+	</style>
+	<script type="text/javascript">
+		function changeView () {
+			console.log("option");
+		}
+
+		function calculate(argument) {
+			if (argument == 'amount') {
+				var form = document.getElementById('myForm');
+				var p = parseFloat(form.principal.value);
+				var r = parseFloat(form.rate.value);
+				var years = parseFloat(form.years.value);
+				var n = years * 12;
+				var r = (r / n) * (years / 100);
+
+				var emi = p * r * (((1 + r)**n) / ((1 + r)**n - 1));
+				var emiRound = Math.round(emi);
+				document.getElementById('emiValue').innerHTML = '₹ ' + emiRound;
+				document.getElementById('amountValue').innerHTML = '₹ ' +  (emiRound) * years * 12;
+
+				console.log(emi);
+			}
+		}
+
+		// function addListeners() {
+		// 	document.getElementById("myBtn").addEventListener("click", changeView);
+		// }
+		function redirect() {
+			window.location.href = "index.html";
+		}
+
+		function openWindow() {
+			window.open("index.html");
+		}
+
+		function printDiv() {
+			var prtContent = document.getElementById("tableDiv");
+			var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+			WinPrint.document.write(prtContent.innerHTML);
+			WinPrint.document.close();
+			WinPrint.focus();
+			WinPrint.print();
+			WinPrint.close();
+		}
+	</script>
+</head>
+<body>
+	<img src="https://pngriver.com/wp-content/uploads/2018/04/Download-Left-Arrow-PNG-HD.png" alt="BACK" width="54" height="41px" onclick="redirect()">
+	<center>
+		<h1>EMI Calculation</h1>
+		<!-- <button onclick="something()">CLICK me</button> -->
+		<input type="radio" onclick="changeView()" name="option" value="amount" checked> Amount<br>
+		<input type="radio" onclick="changeView()" name="option" value="principal"> Principal<br>
+		<input type="radio" name="option" value="other"> Other<br><br>
+		
+		<div class="amount" id="amount">
+			<div class="row">
+			  <div class="column" style="background-color:#aaa;">
+			    <form action="#" id="myForm">
+					<label>Principal: </label>
+					<input type="text" name="principal"><br><br><br>
+					<label>Rate of intrest: </label>
+					<input type="text" name="rate"><br><br><br>
+					<label>Number of years: </label>
+					<input type="text" name="years"><br><br><br>
+					<button type="button" onclick="calculate('amount')">SUBMIT</button>
+				</form>
+			  </div>
+			  <div class="column" style="background-color:#bbb;">
+			    <b>EMI:</b>
+			    <h1 id="emiValue"><h1></h1>
+			    <b>Amount:</b>
+			    <h1 id="amountValue"><h1></h1>
+			  </div>
+			</div>
+		</div>
+		<br>
+		<br>
+		<button onclick="printDiv()">PRINT</button>
+	</center>
+</body>
+</html>
