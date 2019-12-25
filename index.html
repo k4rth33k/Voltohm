@@ -1,27 +1,90 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>Voltohm Financial Calculations</title>
-	<style type="text/css">
-		.menuLinks {
-			font-size: 45px;
-			color: blue;
-			margin: 30px;
-		}
-
-		a { outline: none; }
-
-	</style>
+  <title>Compound Interest Calculator</title>
 </head>
+
 <body>
-	<center>
-		<h1>Voltohm Financial Calculations</h1>
-		<br>
+    <style>
+    body {
+  font-family: var(--system-font-stack);
+  margin: 0;
+  padding: 1.5rem;
+}
+#box-1>div{
+    background-color: dimgray;
+    padding: 35px;
+    color: floralwhite;
+    padding-left: 35%;
+}
+#user-inputs>div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.75rem;
+}
 
-		<a class="menuLinks" style="text-decoration:none" href="EMI.html">EMI Calculation</a><br><br><br>
-		<a class="menuLinks" style="text-decoration:none" href="CCI.html">CCI Calculation</a><br><br><br>
-		<a class="menuLinks" style="text-decoration:none" href="EMI.html">... Calculation</a><br><br><br>
+#user-inputs label {
+  margin-bottom: 0.25rem;
+}
 
-	</center>
+#user-inputs input {
+  width: 15rem;
+}
+
+#interest-table,
+#interest-table thead,
+#interest-table tr {
+    border: 2px  solid black;
+    width: 100%;
+}
+
+#interest-table>thead>tr>td {
+  font-weight: bold;
+  border: 2px  solid black;
+}
+
+#interest-table td {
+  font-size: 12px;  
+  border: 2px  solid black;
+}
+#btn-1{
+    margin-top: 25px;
+    margin-left: 45%;
+}
+</style>
+  <h1>Compound Interest Calculactor</h1>
+  <div id="box-1"> 
+    <div id="user-inputs">
+            <div>
+                <label for="principal">Principal</label>
+                <input type="text" id="principal" />
+            </div>
+            <div>
+                <label for="rate">Rate of Interest (%)</label>
+                <input type="text" id="rate" />
+            </div>
+            <div>
+                <label for="year-count">Number of Years</label>
+                <input type="text" id="year-count" />
+            </div>
+    </div>
+   <table id="interest-table">
+      <thead>
+        <tr>
+          <td>Year</td>
+          <td>Year Deposit</td>
+          <td>Year Interest</td>
+          <td>Total Deposit</td>
+          <td>Total Interest</td>
+          <td>Balance</td>
+        </tr>
+      </thead>
+      <tbody id="results">
+      </tbody>
+    </table>
+    <button id="btn-1" type="submit">Print</button>
+    <script src="CCI.js"></script>
 </body>
+
 </html>
