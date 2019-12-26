@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>EMI Calculation</title>
-	<style type="text/css">
+	<style type="text/css" media="all">
 		* {
 			box-sizing: border-box;
 		}
@@ -17,7 +17,7 @@
 			width: 40%;
 			padding: 10px;
 			/*margin-left: 20px;*/
-			/*height: 300px;*/ /* Should be removed. Only for demonstration */
+			height: 225px; /* Should be removed. Only for demonstration */
 		}
 
 			/* Clear floats after the columns */
@@ -47,25 +47,56 @@
 
 	</style>
 	<script type="text/javascript">
-		function changeView () {
-			console.log("option");
+		function start() {
+			document.getElementById('aInput').style.display = 'none';
+			document.getElementById('pResult').style.display = 'none';
+			document.getElementById('pButton').style.display = 'none';
+			document.getElementById('amountButton').style.display = 'block';
+		}
+		
+		function changeView (id) {
+			console.log('Changing view to find ' + id);	
+			if (id == 'amount') {
+				//Find Amount
+				start();
+				document.getElementById('pInput').style.display = 'block';
+				document.getElementById('amountResult').style.display = 'block';
+			}
+			else{
+				//Find Principal
+				document.getElementById('aInput').style.display = 'block';
+				document.getElementById('pInput').style.display = 'none';
+				document.getElementById('amountResult').style.display = 'none';
+				document.getElementById('pResult').style.display = 'block';
+				document.getElementById('amountButton').style.display = 'none';
+				document.getElementById('pButton').style.display = 'block';
+			}
 		}
 
 		function calculate(argument) {
-			if (argument == 'amount') {
-				var form = document.getElementById('myForm');
-				var p = parseFloat(form.principal.value);
-				var r = parseFloat(form.rate.value);
-				var years = parseFloat(form.years.value);
-				var n = years * 12;
-				var r = (r / n) * (years / 100);
+			console.log('Calculating ' + argument);
+			var form = document.getElementById('myForm');
+			var r = parseFloat(form.rate.value);
+			var years = parseFloat(form.years.value);
+			var n = years * 12;
+			var r = (r / n) * (years / 100);
 
+			if (argument == 'amount') {
+				var p = parseFloat(form.principal.value);
 				var emi = p * r * (((1 + r)**n) / ((1 + r)**n - 1));
 				var emiRound = Math.round(emi);
 				document.getElementById('emiValue').innerHTML = '₹ ' + emiRound;
+				document.getElementById('emiPure').innerHTML = '(₹ ' + emi + ')';
 				document.getElementById('amountValue').innerHTML = '₹ ' +  (emiRound) * years * 12;
-
-				console.log(emi);
+				console.log('EMI = ' + emi);
+			}
+			else {
+				var a = parseFloat(form.amount.value);
+				var p = a / (r * (((1 + r)**n) / ((1 + r)**n - 1)));
+				var pRound = Math.round(p);
+				console.log('Principal = ' + p);
+				document.getElementById('pValue').innerHTML = '₹ ' + pRound;
+				document.getElementById('pPure').innerHTML = '(₹ ' + p + ')';
 			}
 		}
 
@@ -80,8 +111,8 @@
 			window.open("index.html");
 		}
 
-		function printDiv() {
-			var prtContent = document.getElementById("tableDiv");
+		function printDiv(id) {
+			var prtContent = document.getElementById(id);
 			var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
 			WinPrint.document.write(prtContent.innerHTML);
 			WinPrint.document.close();
@@ -89,41 +120,81 @@
 			WinPrint.print();
 			WinPrint.close();
 		}
+
 	</script>
 </head>
-<body>
+<body onload="start()">
 	<img src="https://pngriver.com/wp-content/uploads/2018/04/Download-Left-Arrow-PNG-HD.png" alt="BACK" width="54" height="41px" onclick="redirect()">
 	<center>
 		<h1>EMI Calculation</h1>
 		<!-- <button onclick="something()">CLICK me</button> -->
-		<input type="radio" onclick="changeView()" name="option" value="amount" checked> Amount<br>
-		<input type="radio" onclick="changeView()" name="option" value="principal"> Principal<br>
-		<input type="radio" name="option" value="other"> Other<br><br>
+		<!-- <input type="radio" onclick="changeView('amount')" name="option" value="amount" checked>Find Amount<br>
+		<input type="radio" onclick="changeView('principal')" name="option" value="principal">Find Principal<br><br> -->
+
+		<button type="button" style="margin: 20px;" onclick="changeView('amount')">Find Amount</button>
+		<button type="button" style="margin: 20px;" onclick="changeView('principal')">Find Principal</button>
+
 		
 		<div class="amount" id="amount">
 			<div class="row">
 			  <div class="column" style="background-color:#aaa;">
+			    <form action="#" id="myForm" onsubmit="">
+			    	<div id="aInput">
+				    	<label id="aLabel">Amount: </label>
+						<input type="text" name="amount"><br><br><br>
+					</div>
+					<div id="pInput">
+						<label>Principal: </label>
+						<input type="text" name="principal"><br><br><br>
+					</div>
+					<label>Rate of intrest: </label>
+					<input type="text" name="rate" id="rInput"><br><br><br>
+					<label>Number of years: </label>
+					<input type="text" name="years" id="yInput"><br><br><br>
+					<button id="amountButton" type="button" onclick="calculate('amount')">SUBMIT</button>
+					<button id="pButton" type="button" onclick="calculate('principal')">SUBMIT</button>
+
+				</form>
+			  </div>
+			  <div class="column" style="background-color:#bbb;">
+			  	<div id="amountResult">
+				    <b>EMI:</b>
+				    <h1 id="emiValue"></h1>
+				    <h4 id="emiPure"></h4>
+				    <b>Amount:</b>
+				    <h1 id="amountValue"></h1>
+				</div>
+				<div id="pResult">
+				    <b>Principal:</b>
+				    <h1 id="pValue"></h1>
+				    <h4 id="pPure"></h4>
+				</div>
+			  </div>
+			</div>
+		</div>
+
+<!-- 		<div class="principal" id="principal">
+			<div class="row">
+			  <div class="column" style="background-color:#aaa;">
 			    <form action="#" id="myForm">
-					<label>Principal: </label>
-					<input type="text" name="principal"><br><br><br>
+					<label>Amount: </label>
+					<input type="text" name="amount" id="amountInput"><br><br><br>
 					<label>Rate of intrest: </label>
 					<input type="text" name="rate"><br><br><br>
 					<label>Number of years: </label>
 					<input type="text" name="years"><br><br><br>
-					<button type="button" onclick="calculate('amount')">SUBMIT</button>
+					<button type="button" onclick="calculate('principal')">SUBMIT</button>
 				</form>
 			  </div>
 			  <div class="column" style="background-color:#bbb;">
-			    <b>EMI:</b>
-			    <h1 id="emiValue"><h1></h1>
-			    <b>Amount:</b>
-			    <h1 id="amountValue"><h1></h1>
+			    <b>Principal:</b>
+			    <h1 id="pValue"><h1></h1>
 			  </div>
 			</div>
-		</div>
+		</div> -->
 		<br>
 		<br>
-		<button onclick="printDiv()">PRINT</button>
+		<!-- <button onclick="printDiv('amount')">PRINT</button> -->
 	</center>
 </body>
 </html>
