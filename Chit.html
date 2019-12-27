@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Compound Interest Calculator</title>
+   <script src="Chit.js"></script>
+</head>
+
+<body>
+    <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 1.5rem;
+    }
+#box-1>div{
+    background-color: dimgray;
+    padding: 35px;
+    font-size: 24px;
+    color: floralwhite;
+    padding-left: 35%;
+}
+#user-inputs>div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.75rem;
+}
+#user-inputs label {
+  margin-bottom: 0.25rem;
+}
+#user-inputs input {
+  width: 15rem;
+}
+#interest-table,
+#interest-table thead,
+#interest-table tr {
+    border: 2px  solid black;
+    width: 100%;
+}
+#interest-table>thead>tr>td {
+  font-weight: bold;
+  border: 2px  solid black;
+}
+#interest-table td {
+  font-size: 24px;  
+  border: 2px  solid black;
+}
+#btn-1{
+    margin-top: 25px;
+    margin-left: 45%;
+    padding: 18px;
+    font-size: 24px;
+}
+#minus{
+  padding: 2px;
+}
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+  var ans = []
+$(function () {
+    $("#btnAdd").bind("click", function () {
+        var div = $("<div />");
+        div.html(GetDynamicTextBox(""));
+        $("#TextBoxContainer").append(div);
+    });
+    $("#btnGet").bind("click", function () {
+        var values = [];
+        $("input[name=DynamicTextBox]").each(function () {
+            values.push(Number($(this).val()));
+        });
+        
+        for (var i = 0; i < values.length; i+=3) {
+          var result = main(values[i], values[i+1], values[i+2]);
+          console.log(result)
+          ans.push(Math.round(Number(result)))
+        }
+        var ansStr = "";
+        var sum = 0;
+        for (var i = 0; i < ans.length; i++){
+           sum += ans[i]
+           // document.getElementById("answer").innerHTML += ans[i] + " + "
+           ansStr += ans[i] + " + ";
+           var l = ansStr.length;
+        }
+        // document.getElementById("answer").innerHTML += ansStr[l-3];
+        // document.getElementById("answer").innerHTML += " = ";
+        document.getElementById("answer").innerHTML += sum;
+
+    });
+    $("body").on("click", ".remove", function () {
+        $(this).closest("div").remove();
+    });
+});
+function GetDynamicTextBox(value) {
+    return '<button id="minus" type="button" value="-" class="remove">X</button>'+"&nbsp"+
+    '<input placeholder="Start month" name = "DynamicTextBox" type="text" value = "' + value + '" />&nbsp;'+'<input placeholder="End month" name = "DynamicTextBox" type="text" value = "' + value + '" />&nbsp;'+'<input placeholder="Installment" name = "DynamicTextBox" type="text" value = "' + value + '" />&nbsp;' 
+            
+}
+</script>
+  <h1>Chit Fund Calculactor</h1>
+  <div id="box-1"> 
+    <div id="user-inputs">
+            <!-- <div>
+                <label for="principal">Principal</label>
+                <input type="text" id="principal" />
+            </div> -->
+            <div>
+                <label for="rate">Rate of Interest (%)</label>
+                <input type="text" id="rate" />
+            </div>
+            <!-- <div>
+                <label for="month-count">Number of Months</label>
+                <input type="text" id="month-count" />
+            </div> -->
+            <input id="btnAdd" type="button" value="Add" />
+            <br />
+            <br />
+            <div id="TextBoxContainer">
+                <!--Textboxes will be added here -->
+            </div>
+            <br />
+            <!-- <input id="btnGet" type="button" value="Get Values" /> -->
+
+            <button id="btnGet" type="button" onclick="main()">GENERATE</button>
+            <div>
+              <h3 id="answer" >
+                Total amount the paid : 
+              </h3>
+            </div>
+     </div>
+   <table id="interest-table">
+      <thead>
+        <tr>
+          <td>Month</td>
+          <td>Monthly Deposit</td>
+          <td>Monthly Interest</td>
+          <td>Total Deposit</td>
+          <td>Total Interest</td>
+          <td>Balance</td>
+        </tr>
+      </thead>
+      <tbody id="results">
+      </tbody>
+    </table>
+    <button id="btn-1" type="submit">Print</button>
+   
+</body>
+
+</html>
