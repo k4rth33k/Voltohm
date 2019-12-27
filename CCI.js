@@ -18,19 +18,22 @@
     function formatMoney(value) {
       return value.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-  
+
+
   
     function main() {
       var inputBoxes = document.getElementsByTagName("input");
       var table = document.getElementById("results");
       var principalInput = document.getElementById("principal");
-      var numberOfYearsInput = document.getElementById("year-count");
+      var numberOfMonthsInput = document.getElementById("month-count");
       var annualInterestRateInput = document.getElementById("rate");
       var updateTable = function(event) {
-        var rowcount = Number(numberOfYearsInput.value);
+        var rowcount = Number(numberOfMonthsInput.value);
         var principal = Number(principalInput.value);
         var annualInterestRate = Number(annualInterestRateInput.value) / 100.0;
-        var interestFactor = 1 + annualInterestRate / 12.0;
+        // var interestFactor = 1 + annualInterestRate / 12.0;//years
+        var interestFactor = 1 + annualInterestRate;
+
         var balance = 0;
         var totalDeposit = 0;
         var monthCount = 0;
@@ -39,15 +42,15 @@
         clearContents(table);
         for (var row = 1; row <= rowcount; row += 1) {
           var newRow = document.createElement("tr");
-          monthCount = 12 * row;
-          totalDeposit = 12.0 * principal * row;
+          monthCount = row; 
+          totalDeposit = principal * row;
           balance = principal * (
             (Math.pow(interestFactor, monthCount + 1) - 1) /
             (interestFactor - 1) - 1);
           perviousYearInterest = yearInterest;
           yearInterest = balance - totalDeposit;
           addValueToRow(newRow, "" + row);
-          addValueToRow(newRow, formatMoney(principal * 12.0));
+          addValueToRow(newRow, formatMoney(principal));
           addValueToRow(newRow, formatMoney(yearInterest - perviousYearInterest));
           addValueToRow(newRow, formatMoney(totalDeposit));
           addValueToRow(newRow, formatMoney(balance - totalDeposit));

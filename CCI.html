@@ -3,20 +3,47 @@
 
 <head>
   <title>Compound Interest Calculator</title>
+  <script src="CCI.js"></script>
+  <script type="text/javascript">
+    function printDiv(id) {
+      var prtContent = document.getElementById(id);
+      var styleContent = document.getElementById('styleTag');
+
+      var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+      var styleTagOpen = '<style>';
+      var styleTagClose = '</style>';
+
+      WinPrint.document.write(styleTagOpen);
+      WinPrint.document.write(styleContent.innerHTML);
+      WinPrint.document.write(styleTagClose);
+
+      WinPrint.document.write(prtContent.innerHTML);
+      WinPrint.document.close();
+      WinPrint.focus();
+      WinPrint.print();
+      WinPrint.close();
+    }
+
+
+  </script>
 </head>
 
 <body>
-    <style>
+    <style media="all" id="styleTag">
     body {
   font-family: var(--system-font-stack);
   margin: 0;
   padding: 1.5rem;
 }
 #box-1>div{
+  font-size: 24px;
     background-color: dimgray;
     padding: 35px;
     color: floralwhite;
     padding-left: 35%;
+}
+#print{
+  font-family: sans-serif;
 }
 #user-inputs>div {
   display: flex;
@@ -38,17 +65,22 @@
 #interest-table>thead>tr>td {
   font-weight: bold;
   border: 2px  solid black;
+
 }
 #interest-table td {
-  font-size: 12px;  
+  
   border: 2px  solid black;
+
+  font-size: 25px;
+  /*font-weight: 200px;*/
 }
 #btn-1{
     margin-top: 25px;
     margin-left: 45%;
 }
 </style>
-  <h1>Compound Interest Calculactor</h1>
+
+  <h1>Cumulative Compound Interest Calculactor</h1>
   <div id="box-1"> 
     <div id="user-inputs">
             <div>
@@ -60,26 +92,29 @@
                 <input type="text" id="rate" />
             </div>
             <div>
-                <label for="year-count">Number of Years</label>
-                <input type="text" id="year-count" />
+                <label for="month-count">Number of Months</label>
+                <input type="text" id="month-count" />
             </div>
     </div>
-   <table id="interest-table">
-      <thead>
-        <tr>
-          <td>Year</td>
-          <td>Year Deposit</td>
-          <td>Year Interest</td>
-          <td>Total Deposit</td>
-          <td>Total Interest</td>
-          <td>Balance</td>
-        </tr>
-      </thead>
-      <tbody id="results">
-      </tbody>
-    </table>
-    <button id="btn-1" type="submit">Print</button>
-    <script src="CCI.js"></script>
+  </div>
+    <div id="print">
+     <table id="interest-table">
+        <thead>
+          <tr>
+            <td>Month</td>
+            <td>Monthly Deposit</td>
+            <td>Monthly Interest</td>
+            <td>Total Deposit</td>
+            <td>Total Interest</td>
+            <td>Balance</td>
+          </tr>
+        </thead>
+        <tbody id="results">
+        </tbody>
+      </table>
+    </div>
+    <button id="btn-1" type="button" onclick="printDiv('print')">Print</button>
+    
 </body>
 
 </html>
