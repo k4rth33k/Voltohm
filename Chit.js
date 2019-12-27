@@ -81,6 +81,11 @@ function printDiv(id) {
       var prtContent = document.getElementById(id);
       var styleContent = document.getElementById('styleTag');
       var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+      var styleTagOpen = '<style>';
+      var styleTagClose = '</style>';
+      WinPrint.document.write(styleTagOpen);
+      WinPrint.document.write(styleContent.innerHTML);
+      WinPrint.document.write(styleTagClose);
       WinPrint.document.write(prtContent.innerHTML);
       WinPrint.document.close();
       WinPrint.focus();
